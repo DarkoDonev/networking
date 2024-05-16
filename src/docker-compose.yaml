@@ -1,0 +1,22 @@
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "8522:8522"
+    networks:
+      - server-client-network
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    networks:
+      - server-client-network
+    depends_on:
+      - server
+    deploy:
+      replicas: 2
+networks:
+  server-client-network:
+    driver: bridge
